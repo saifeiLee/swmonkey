@@ -4,12 +4,13 @@ import time
 import pstats
 import cProfile
 import pstats
+from util import KEY_NAMES
 
 DURATION = 10  # Duration in seconds
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 
 start_time = time.time()
-def monke_test():
+def monkey_test():
     while time.time() - start_time < DURATION:
         # Random mouse movement
         x = random.randint(0, SCREEN_WIDTH - 1)
@@ -19,16 +20,18 @@ def monke_test():
         # Random click
         if random.random() < 0.1:
             pyautogui.click()
+        else:
+            pyautogui.doubleClick()
 
         # Random keypress
-        if random.random() < 0.05:
-            pyautogui.press(random.choice(['a', 'b', 'c', 'd', 'e']))
+        if random.random() < 0.5:
+            pyautogui.press(random.choice(KEY_NAMES))
 
 profile = cProfile.Profile()
 profile.enable()
 
-monke_test()
+monkey_test()
 
 profile.disable()
 stats = pstats.Stats(profile)
-stats.dump_stats(filename='monke_test.prof')
+stats.dump_stats(filename='monkey_test.prof')
