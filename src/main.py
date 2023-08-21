@@ -1,24 +1,21 @@
-import time
-import pstats
-import cProfile
-import pstats
-
-from first_monkey import monkey_test
+# Delete old files
+# Attention: this must preceed the import of logger
 from watchdog import watchdog
+from first_monkey import monkey_test
+import threading
+from monitor import monkey_monitor
+from prepare import clean
+clean()
+
 
 DURATION = 10  # Duration in seconds
 # DURATION = 60 * 60 * 10  # Duration in seconds
 TIME_DIFF_SCALE = 0.1
 
 
-start_time = time.time()
+# Start monitor in a sperated thread
+monitor_thread = threading.Thread(target=monkey_monitor, daemon=True)
+monitor_thread.start()
 
-profile = cProfile.Profile()
-profile.enable()
-
-# monkey_test()
+# TODO: refactor this
 watchdog(monkey_test, DURATION + TIME_DIFF_SCALE * DURATION, DURATION)
-
-profile.disable()
-stats = pstats.Stats(profile)
-stats.dump_stats(filename='./out/monkey_test.prof')

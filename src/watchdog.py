@@ -1,10 +1,12 @@
 import threading
+from util import get_out_dir
 
 
 def collect_system_logs():
     with open('/var/log/syslog', 'r') as f:
         logs = f.readlines()
-    with open('out/syslog.txt', 'w') as f:
+    out_dir = get_out_dir()
+    with open(f'{out_dir}/syslog.txt', 'w') as f:
         LINES_COUNT = -200
         f.writelines(logs[LINES_COUNT:])
 

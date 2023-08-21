@@ -194,3 +194,14 @@ KEY_NAMES = [
     "optionleft",
     "optionright",
 ]
+
+import os
+
+def get_out_dir():
+    current_dir = os.path.dirname(os.path.realpath(__file__))
+    parrent_dir = os.path.dirname(current_dir)
+    out_dir = os.path.join(parrent_dir, 'out')
+    # if out_dir does not exist, create it
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
+    return out_dir
