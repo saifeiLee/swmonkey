@@ -1,5 +1,5 @@
 import os
-from util import get_out_dir
+from .util import get_out_dir
 
 
 def clean():

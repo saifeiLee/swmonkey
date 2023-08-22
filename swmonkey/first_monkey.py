@@ -1,7 +1,7 @@
 import pyautogui
 import random
 import time
-from util import KEY_NAMES
+from .util import KEY_NAMES
 
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()

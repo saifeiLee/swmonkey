@@ -1,10 +1,10 @@
 # Delete old files
 # Attention: this must preceed the import of logger
-from watchdog import watchdog
-from first_monkey import monkey_test
+from .watchdog import watchdog
+from .first_monkey import monkey_test
 import threading
-from monitor import monkey_monitor
-from prepare import clean
+from .monitor import monkey_monitor
+from .prepare import clean
 clean()
 
 
