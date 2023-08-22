@@ -1,5 +1,5 @@
 import psutil
-from log import logger
+from .log import logger
 import time
 
 INTERVAL = 2
