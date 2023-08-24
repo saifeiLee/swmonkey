@@ -43,8 +43,10 @@ class GUIAction:
         Execute the action
         '''
         if self.action_type == 'click':
+            pyautogui.moveTo(self.x, self.y, duration=0.1)
             pyautogui.click(self.x, self.y, button=self.button)
         elif self.action_type == 'double_click':
+            pyautogui.moveTo(self.x, self.y, duration=0.1)
             pyautogui.doubleClick(self.x, self.y, button=self.button)
         elif self.action_type == 'key_press':
             pyautogui.press(self.key)

@@ -6,6 +6,9 @@ INTERVAL = 2
 
 
 def monitor_system():
+    '''
+    监控monkey test执行过程中的系统资源变化,输出到日志
+    '''
     cpu_usage = psutil.cpu_percent(interval=1)
     mem_usage = psutil.virtual_memory().percent
     disk_usage = psutil.disk_usage('/').percent

@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='swmonkey',
-    version='0.4',
+    version='0.6',
     packages=['swmonkey'],
     author='Li Saifei',
     author_email='waltermitty121906@gmail.com',

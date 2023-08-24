@@ -1,3 +1,4 @@
+import os
 KEY_NAMES = [
     "\t",
     "\n",
@@ -195,7 +196,6 @@ KEY_NAMES = [
     "optionright",
 ]
 
-import os
 
 def get_out_dir():
     current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -205,3 +205,15 @@ def get_out_dir():
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
     return out_dir
+
+
+def clean():
+    output_dir = get_out_dir()
+    # clear all files under output_dir
+    for filename in os.listdir(output_dir):
+        file_path = os.path.join(output_dir, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(e)
