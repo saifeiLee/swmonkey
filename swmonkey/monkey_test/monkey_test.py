@@ -1,7 +1,7 @@
 import pyautogui
 import random
 import time
-from ..util import KEY_NAMES
+from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 
 
