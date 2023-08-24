@@ -21,8 +21,8 @@ def swmonkey():
     parser.add_argument('-d', '--duration', type=int,
                         default=DURATION, help='Duration in seconds')
 
-    parser.add_argument('-r', '--replay', type=str,
-                        default=None, help='Replay a previous monkey test')
+    parser.add_argument('-r', '--replay', dest='replay', action='store_true',
+                        default='replay', help='Replay a previous monkey test')
     parser.add_argument('-p', '--path', type=str,
                         default=None, help='Path to the monkey test')
     args = parser.parse_args()
