@@ -1,4 +1,6 @@
 import os
+import time
+
 KEY_NAMES = [
     "\t",
     "\n",
@@ -198,9 +200,10 @@ KEY_NAMES = [
 
 
 def get_out_dir():
-    current_dir = os.path.dirname(os.path.realpath(__file__))
-    parrent_dir = os.path.dirname(current_dir)
-    out_dir = os.path.join(parrent_dir, 'out')
+    home_dir = os.path.expanduser('~')
+    app_dir = os.path.join(home_dir, '.swmonkey')
+    timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+    out_dir = os.path.join(app_dir, timestamp)
     # if out_dir does not exist, create it
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
