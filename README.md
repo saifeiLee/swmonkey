@@ -50,7 +50,12 @@ https://kb.cvte.com/pages/viewpage.action?pageId=372571592
 
 ```
 python -m venv venv
+
 source venv/bin/activate
+
 pip install -e . # Install package in editable mode
+
 swmonkey -d 15 # Run 15 seconds
+# 查看日志文件, 日志文件和录制文件都在 ~/.swmonkey/ 目录下，目录名为时间戳
+ls ~/.swmonkey/
 ```
