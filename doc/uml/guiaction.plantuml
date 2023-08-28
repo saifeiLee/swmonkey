@@ -1,0 +1,14 @@
+@startuml
+class GUIAction {
+    - action_type: str
+    - timestamp: int
+    - x: int
+    - y: int
+    - key: str
+    - button: str
+    - text: str
+    + execute(): None
+    + to_json(gui_action: GUIAction): str
+    + from_json(json_data: str): GUIAction
+}
+@enduml

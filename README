@@ -35,3 +35,8 @@ swmonkey -d 20 # 运行20秒
 -p 指定回放数据的路径
 
 回放数据的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
+
+
+## 设计文档
+
+https://kb.cvte.com/pages/viewpage.action?pageId=372571592
