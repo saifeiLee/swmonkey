@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='swmonkey',
-    version='0.6',
-    packages=['swmonkey'],
+    version='0.9',
+    packages=find_packages(),
     author='Li Saifei',
     author_email='waltermitty121906@gmail.com',
     description='A tool for monkey test on Linux GUI',
