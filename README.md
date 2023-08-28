@@ -36,7 +36,21 @@ swmonkey -d 20 # 运行20秒
 
 回放数据的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
 
-
 ## 设计文档
 
 https://kb.cvte.com/pages/viewpage.action?pageId=372571592
+
+## 构建和发布
+
+```
+./auto-upload.sh
+```
+
+## 本地测试
+
+```
+python -m venv venv
+source venv/bin/activate
+pip install -e . # Install package in editable mode
+swmonkey -d 15 # Run 15 seconds
+```
