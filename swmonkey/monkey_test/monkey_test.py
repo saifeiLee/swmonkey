@@ -19,7 +19,7 @@ class MonkeyTest():
     def run(self):
         self.monkey_test()
 
-    def record_action(self,action):
+    def record_action(self, action):
         self.actions.append(action.__dict__)
 
     def monkey_test(self):
@@ -38,6 +38,8 @@ class MonkeyTest():
             else:
                 gui_action = GUIAction(
                     'double_click', time.time(), x, y, '', 'left', '')
+            gui_action.execute()
+            self.record_action(gui_action)
 
             # Random keypress
             if random.random() < 0.5:
