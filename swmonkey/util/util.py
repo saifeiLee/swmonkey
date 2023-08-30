@@ -199,10 +199,14 @@ KEY_NAMES = [
 ]
 
 
+timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+
+
 def get_out_dir():
     home_dir = os.path.expanduser('~')
     app_dir = os.path.join(home_dir, '.swmonkey')
-    timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+    # Use global variable to ensure singleton
+    global timestamp
     out_dir = os.path.join(app_dir, timestamp)
     # if out_dir does not exist, create it
     if not os.path.exists(out_dir):

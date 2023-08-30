@@ -6,7 +6,7 @@ import os
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.log.log import logger, get_out_dir
-
+from swmonkey.monitor.monitor import monitor_system
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 
@@ -19,13 +19,15 @@ class MonkeyTest():
     def run(self):
         self.monkey_test()
 
-    def record_action(self,action):
+    def record_action(self, action):
         self.actions.append(action.__dict__)
 
     def monkey_test(self):
         '''
         每次循环，随机生成一个动作，然后执行
         '''
+        monitor_system()
+        logger.info("Monkey started!")
         start_time = time.time()
         while time.time() - start_time < self.duration:
             # Random mouse movement
@@ -38,6 +40,8 @@ class MonkeyTest():
             else:
                 gui_action = GUIAction(
                     'double_click', time.time(), x, y, '', 'left', '')
+            gui_action.execute()
+            self.record_action(gui_action)
 
             # Random keypress
             if random.random() < 0.5:
@@ -55,4 +59,3 @@ class MonkeyTest():
         with open(actions_json_file_path, 'w') as f:
             f.write(str(self.actions))
         logger.info("Monkey finished!")
-        logger.info(self.actions)

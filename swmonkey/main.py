@@ -6,14 +6,12 @@ from swmonkey.monitor.monitor import monkey_monitor
 from swmonkey.monkey_test.monkey_test import MonkeyTest
 
 DURATION = 10  # Duration in seconds
-# DURATION = 60 * 60 * 10  # Duration in seconds
 TIME_DIFF_SCALE = 0.1
 
 
 # Start monitor in a sperated thread
 # monitor_thread = threading.Thread(target=monkey_monitor, daemon=True)
 # monitor_thread.start()
-
 
 def swmonkey():
     parser = argparse.ArgumentParser(
@@ -22,7 +20,7 @@ def swmonkey():
                         default=DURATION, help='Duration in seconds')
 
     parser.add_argument('-r', '--replay', dest='replay', action='store_true',
-                        default='replay', help='Replay a previous monkey test')
+                        default=None, help='Replay a previous monkey test')
     parser.add_argument('-p', '--path', type=str,
                         default=None, help='Path to the monkey test')
     args = parser.parse_args()
