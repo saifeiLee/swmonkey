@@ -1,5 +1,6 @@
 import json
 import pyautogui
+from .gui_action_type import GUIActionType
 
 
 class GUIAction:
