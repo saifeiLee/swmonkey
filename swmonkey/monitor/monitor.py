@@ -1,6 +1,7 @@
 import psutil
 from swmonkey.log.log import logger
 import time
+from swmonkey.error import SystemUsageError
 
 INTERVAL = 2
 
@@ -19,10 +20,13 @@ def monitor_system():
     # 阈值告警
     if cpu_usage > 90:
         logger.warning(f'CPU usage is over 90%')
+        raise SystemUsageError('CPU usage is over 90%')
     if mem_usage > 90:
         logger.warning(f'Memory usage is over 90%')
+        raise SystemUsageError('Memory usage is over 90%')
     if disk_usage > 90:
         logger.warning(f'Disk usage is over 90%')
+        raise SystemUsageError('Disk usage is over 90%')
 
 
 def monkey_monitor():
