@@ -10,7 +10,6 @@ from swmonkey.monitor.monitor import monitor_system
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 
-
 class MonkeyTest():
     def __init__(self, duration):
         self.duration = duration
