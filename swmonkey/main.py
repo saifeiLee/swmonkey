@@ -20,6 +20,7 @@ def swmonkey():
         replay_controller = ReplayController()
         replay_controller.run(actions_json_file_path=args.path)
     else:
+        duration = int(os.getenv('DURATION'))
         monkey_test = MonkeyTest(duration=duration)
         monkey_test.run()
 
