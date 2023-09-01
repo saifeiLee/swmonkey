@@ -203,7 +203,7 @@ timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
 
 
 def get_out_dir():
-    user_defined_path = os.getenv('PATH')
+    user_defined_path = os.getenv('LOG_PATH')
     if user_defined_path is not None:
         return user_defined_path
     home_dir = os.path.expanduser('~')

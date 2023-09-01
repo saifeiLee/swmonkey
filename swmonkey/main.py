@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
     path = args.path
     if path is not None:
-        os.environ['PATH'] = path
+        os.environ['LOG_PATH'] = path
 
     if os.getenv('HEARTBEAT_URL') is not None:
         print("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
