@@ -16,26 +16,6 @@ def swmonkey():
     '''
     执行monkey测试
     '''
-    if os.getenv('REPLAY') is not None:
-        replay_controller = ReplayController()
-        replay_controller.run(actions_json_file_path=args.path)
-    else:
-        duration = int(os.getenv('DURATION'))
-        monkey_test = MonkeyTest(duration=duration)
-        monkey_test.run()
-
-
-def start_send_heartbeat():
-    '''发送心跳信息，运行在独立进程中'''
-    heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
-    heartbeat_thread.start()
-
-
-def finish_send_heartbeat():
-    finish_heartbeat()
-
-
-if __name__ == '__main__':
     parser = argparse.ArgumentParser(
         description='A tool for monkey test on Linux GUI')
     parser.add_argument('-d', '--duration', type=int,
@@ -67,7 +47,27 @@ if __name__ == '__main__':
         print("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
         start_send_heartbeat()
 
-    swmonkey()
-
+    if os.getenv('REPLAY') is not None:
+        replay_controller = ReplayController()
+        replay_controller.run(actions_json_file_path=args.path)
+    else:
+        duration = int(os.getenv('DURATION'))
+        assert duration > 0
+        monkey_test = MonkeyTest(duration=duration)
+        monkey_test.run()
     if os.getenv('HEARTBEAT_URL') is not None:
         finish_send_heartbeat()
+
+
+def start_send_heartbeat():
+    '''发送心跳信息，运行在独立进程中'''
+    heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
+    heartbeat_thread.start()
+
+
+def finish_send_heartbeat():
+    finish_heartbeat()
+
+
+if __name__ == '__main__':
+    swmonkey()
