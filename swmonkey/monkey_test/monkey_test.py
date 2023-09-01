@@ -2,7 +2,7 @@ import pyautogui
 import random
 import time
 import os
-
+import json
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.log.log import logger, get_out_dir
@@ -13,13 +13,18 @@ SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 class MonkeyTest():
     def __init__(self, duration):
         self.duration = duration
-        self.actions = []
+        self.out_path = get_out_dir()
+        if not os.path.exists(self.out_path):
+            os.makedirs(self.out_path)
+        self.actions_json_file_path = os.path.join(self.out_path, 'actions.json')
 
     def run(self):
         self.monkey_test()
 
     def record_action(self, action):
-        self.actions.append(action.__dict__)
+        # self.actions.append(action.__dict__)
+        with open(self.actions_json_file_path, 'a') as f:
+            f.write(json.dumps(action.__dict__) + '\n')
 
     def monkey_test(self):
         '''
