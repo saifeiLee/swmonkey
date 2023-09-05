@@ -17,11 +17,20 @@ class ReplayController:
             if not os.path.exists(actions_json_file_path):
                 raise Exception("File not found: {}".format(
                     actions_json_file_path))
+            # get lines count
             with open(actions_json_file_path, 'r') as f:
+                linecount = 0
+                for line in f:
+                    if line.strip():
+                        linecount += 1
+            with open(actions_json_file_path, 'r') as f:
+                cur_line = 0
                 for line in f:
                     if line.strip():
                         action_dict = json.loads(line.strip())
                         self.replay(action_dict)
+                        cur_line += 1
+                        print("Replay progress: {}/{}".format(cur_line, linecount))
         except Exception as e:
             print("Replay failed with error: {}".format(e))
             logger.error("Replay failed with error: {}".format(e))
