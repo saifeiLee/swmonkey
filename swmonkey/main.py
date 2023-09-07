@@ -1,3 +1,5 @@
+__version__ = '0.22'
+
 from threading import Thread
 import argparse
 from swmonkey.controller.replay import ReplayController
@@ -16,6 +18,7 @@ TIME_DIFF_SCALE = 0.1
 def signal_handler_to_exit(signum, frame):
     logger.info(f'收到信号: {signum}, 退出程序')
     os._exit(1)
+
 
 signal.signal(signal.SIGINT, signal_handler_to_exit)
 signal.signal(signal.SIGTERM, signal_handler_to_exit)
@@ -36,6 +39,9 @@ def swmonkey():
                         default=None, help='Path to the monkey test')
     parser.add_argument('--heartbeat', dest='heartbeat',
                         type=str, default=None, help='Heartbeat server address')
+
+    parser.add_argument('-v', '--version', action='version',
+                        version='%(prog)s ' + __version__)
     args = parser.parse_args()
 
     duration = args.duration
