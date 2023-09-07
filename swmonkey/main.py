@@ -7,9 +7,18 @@ from swmonkey.monkey_test.monkey_test import MonkeyTest
 from swmonkey.heartbeat import send_heartbeat, finish_heartbeat
 import os
 from swmonkey.log.log import logger
+import signal
 
 DURATION = 10  # Duration in seconds
 TIME_DIFF_SCALE = 0.1
+
+
+def signal_handler_to_exit(signum, frame):
+    logger.info(f'收到信号: {signum}, 退出程序')
+    os._exit(1)
+
+signal.signal(signal.SIGINT, signal_handler_to_exit)
+signal.signal(signal.SIGTERM, signal_handler_to_exit)
 
 
 def swmonkey():
