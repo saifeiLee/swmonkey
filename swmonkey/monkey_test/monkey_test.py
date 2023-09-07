@@ -36,31 +36,26 @@ class MonkeyTest():
         logger.info("Monkey started!")
         start_time = time.time()
         while time.time() - start_time < self.duration:
-            try:
-                # Random mouse movement
-                x = random.randint(0, SCREEN_WIDTH - 1)
-                y = random.randint(0, SCREEN_HEIGHT - 1)
+            # Random mouse movement
+            x = random.randint(0, SCREEN_WIDTH - 1)
+            y = random.randint(0, SCREEN_HEIGHT - 1)
 
-                if random.random() < 0.1:
-                    gui_action = GUIAction(
-                        'click', time.time(), x, y, '', 'left', '')
-                else:
-                    gui_action = GUIAction(
-                        'double_click', time.time(), x, y, '', 'left', '')
-                gui_action.execute()
-                self.record_action(gui_action)
+            if random.random() < 0.1:
+                gui_action = GUIAction(
+                    'click', time.time(), x, y, '', 'left', '')
+            else:
+                gui_action = GUIAction(
+                    'double_click', time.time(), x, y, '', 'left', '')
+            gui_action.execute()
+            self.record_action(gui_action)
 
-                # Random keypress
-                if random.random() < 0.5:
-                    gui_action = GUIAction(
-                        'key_press', time.time(), 0, 0, random.choice(KEY_NAMES), '', '')
-                else:
-                    gui_action = GUIAction(
-                        'write', time.time(), 0, 0, '', '', random.choice(KEY_NAMES))
-                gui_action.execute()
-                self.record_action(gui_action)
-
-            except Exception as e:
-                logger.error(e)
-                continue
+            # Random keypress
+            if random.random() < 0.5:
+                gui_action = GUIAction(
+                    'key_press', time.time(), 0, 0, random.choice(KEY_NAMES), '', '')
+            else:
+                gui_action = GUIAction(
+                    'write', time.time(), 0, 0, '', '', random.choice(KEY_NAMES))
+            gui_action.execute()
+            self.record_action(gui_action)
         logger.info("Monkey finished!")
