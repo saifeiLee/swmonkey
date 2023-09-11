@@ -15,19 +15,31 @@ DURATION = 10  # Duration in seconds
 TIME_DIFF_SCALE = 0.1
 
 
+def get_signal_name(sig_number):
+    signal_number_to_name = {getattr(signal, n): n for n in dir(
+        signal) if n.startswith('SIG') and '_' not in n}
+    return signal_number_to_name.get(sig_number, 'UNKNOWN')
+
+
 def signal_handler_to_exit(signum, frame):
-    logger.info(f'收到信号: {signum}, 退出程序')
+    sig_name = get_signal_name(signum)
+    logger.info(f'收到信号: {sig_name}({signum}), 退出程序')
     os._exit(1)
 
 
-signal.signal(signal.SIGINT, signal_handler_to_exit)
-signal.signal(signal.SIGTERM, signal_handler_to_exit)
+def register_signal():
+    '''
+    注册信号处理函数
+    '''
+    signal.signal(signal.SIGINT, signal_handler_to_exit)
+    signal.signal(signal.SIGTERM, signal_handler_to_exit)
 
 
 def swmonkey():
     '''
     执行monkey测试
     '''
+    register_signal()
     parser = argparse.ArgumentParser(
         description='A tool for monkey test on Linux GUI')
     parser.add_argument('-d', '--duration', type=int,
