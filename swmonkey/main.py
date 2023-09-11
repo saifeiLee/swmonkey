@@ -73,9 +73,9 @@ def swmonkey():
         os.environ['LOG_PATH'] = path
 
     if os.getenv('HEARTBEAT_URL') is not None:
-        print("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
-        start_send_heartbeat()
-
+        logger.info("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
+        heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
+        heartbeat_thread.start()
     if os.getenv('REPLAY') is not None:
         replay_controller = ReplayController()
         replay_controller.run(actions_json_file_path=args.path)
@@ -85,17 +85,7 @@ def swmonkey():
         monkey_test = MonkeyTest(duration=duration)
         monkey_test.run()
     if os.getenv('HEARTBEAT_URL') is not None:
-        finish_send_heartbeat()
-
-
-def start_send_heartbeat():
-    '''发送心跳信息，运行在独立进程中'''
-    heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
-    heartbeat_thread.start()
-
-
-def finish_send_heartbeat():
-    finish_heartbeat()
+        finish_heartbeat()
 
 
 if __name__ == '__main__':
