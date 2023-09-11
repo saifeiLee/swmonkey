@@ -33,6 +33,8 @@ def register_signal():
     '''
     signal.signal(signal.SIGINT, signal_handler_to_exit)
     signal.signal(signal.SIGTERM, signal_handler_to_exit)
+    signal.signal(signal.SIGHUP, signal_handler_to_exit)
+    signal.signal(signal.SIGQUIT, signal_handler_to_exit)
 
 
 def swmonkey():
