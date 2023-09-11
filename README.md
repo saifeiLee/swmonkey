@@ -24,19 +24,35 @@ pip install swmonkey
 
 ## 使用
 
--d 指定运行时长，默认 10s
+### swmonkey
 
 ```
 swmonkey -d 20 # 运行20秒
+```
+
+-d / --duration 指定运行时间
+
+```
+swmonkey -d 20 -r -p  ~/.swmonkey/20230911114348/actions.json # 回放 ~/.swmonkey/20230911114348/actions.json的数据
 ```
 
 -r 以回放模式运行，需要搭配`-p` 参数指定回访数据的路径
 
 -p 指定回放数据的路径
 
---heartbeat 指定心跳上报地址
+回放数据和日志的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
 
-回放数据的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
+```
+DISPLAY=:0 swmonkey # 远程shell运行,需要DISPLAY环境变量
+```
+
+### swmonkey_runner
+
+`swmonkey_runner`是一个辅助命令，以进程分离的形式运行`swmonkey`, 目的是在 swmonkey 进程挂掉的时候，可以自动重启
+
+```
+swmonkey_runner -d 7200
+```
 
 ## 设计文档
 
