@@ -1,10 +1,9 @@
-__version__ = '0.22'
+__version__ = '0.23'
 
 from threading import Thread
 import argparse
 from swmonkey.controller.replay import ReplayController
 
-from swmonkey.monitor.monitor import monkey_monitor
 from swmonkey.monkey_test.monkey_test import MonkeyTest
 from swmonkey.heartbeat import send_heartbeat, finish_heartbeat
 import os
@@ -56,6 +55,9 @@ def swmonkey():
 
     parser.add_argument('-v', '--version', action='version',
                         version='%(prog)s ' + __version__)
+
+    parser.add_argument('--start-time', dest='start_time', type=float,
+                        default=None, help="Start time of the monkey test")
     args = parser.parse_args()
 
     duration = args.duration
@@ -71,6 +73,10 @@ def swmonkey():
     path = args.path
     if path is not None:
         os.environ['LOG_PATH'] = path
+
+    starttime = args.start_time
+    if starttime is not None:
+        os.environ['START_TIME'] = str(starttime)
 
     if os.getenv('HEARTBEAT_URL') is not None:
         logger.info("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
