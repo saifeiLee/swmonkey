@@ -1,6 +1,6 @@
 import logging
 import os
-from swmonkey.util.util import get_out_dir, clean
+from swmonkey.util.util import get_out_dir
 
 
 def monkey_logger(log_file, log_level=logging.INFO):

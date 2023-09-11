@@ -17,7 +17,8 @@ setup(
     description='A tool for monkey test on Linux GUI',
     entry_points={
         'console_scripts': [
-            'swmonkey = swmonkey.main:swmonkey'
+            'swmonkey = swmonkey.main:swmonkey',
+            'swmonkey_runner = swmonkey.runner:main'
         ]
     },
     install_requires=[

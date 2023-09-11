@@ -198,8 +198,10 @@ KEY_NAMES = [
     "optionright",
 ]
 
-
-timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+start_time = time.time()
+if os.environ.get('START_TIME') is not None:
+    start_time = float(os.environ.get('START_TIME'))
+timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(start_time))
 
 
 def get_out_dir():
