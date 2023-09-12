@@ -14,7 +14,17 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. 运行`python -m swmonkey.main`s
+3. 本地安装
+
+```
+pip install -e .
+```
+
+4. 执行命令
+
+```
+swmonkey -d 60 # 运行60秒
+```
 
 ## 安装
 
