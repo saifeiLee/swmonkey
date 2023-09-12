@@ -198,11 +198,16 @@ KEY_NAMES = [
     "optionright",
 ]
 
-
-timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime())
+start_time = time.time()
+if os.environ.get('START_TIME') is not None:
+    start_time = float(os.environ.get('START_TIME'))
+timestamp = time.strftime('%Y%m%d%H%M%S', time.localtime(start_time))
 
 
 def get_out_dir():
+    user_defined_path = os.getenv('LOG_PATH')
+    if user_defined_path is not None:
+        return user_defined_path
     home_dir = os.path.expanduser('~')
     app_dir = os.path.join(home_dir, '.swmonkey')
     # Use global variable to ensure singleton

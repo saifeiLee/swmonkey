@@ -1,6 +1,6 @@
 import logging
 import os
-from swmonkey.util.util import get_out_dir, clean
+from swmonkey.util.util import get_out_dir
 
 
 def monkey_logger(log_file, log_level=logging.INFO):
@@ -14,9 +14,6 @@ def monkey_logger(log_file, log_level=logging.INFO):
     return logger
 
 
-# Delete old files
-# Attention: this must preceed the import of logger
-clean()
 # TODO: 参数化
 out_dir = get_out_dir()
 log_file = os.path.join(out_dir, 'monkey.log')

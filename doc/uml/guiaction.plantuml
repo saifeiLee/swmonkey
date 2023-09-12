@@ -1,6 +1,7 @@
 @startuml
+
 class GUIAction {
-    - action_type: str
+    - action_type: GUIActionType
     - timestamp: int
     - x: int
     - y: int
@@ -11,4 +12,13 @@ class GUIAction {
     + to_json(gui_action: GUIAction): str
     + from_json(json_data: str): GUIAction
 }
+enum GUIActionType {
+    CLICK
+    DOUBLE_CLICK
+    KEY_PRESS
+    WRITE
+}
+
+GUIAction --> GUIActionType
+
 @enduml

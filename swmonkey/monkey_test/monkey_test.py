@@ -2,11 +2,12 @@ import pyautogui
 import random
 import time
 import os
-
+import json
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.log.log import logger, get_out_dir
 from swmonkey.monitor.monitor import monitor_system
+pyautogui.FAILSAFE = False
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 
@@ -14,13 +15,18 @@ SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 class MonkeyTest():
     def __init__(self, duration):
         self.duration = duration
-        self.actions = []
+        self.out_path = get_out_dir()
+        if not os.path.exists(self.out_path):
+            os.makedirs(self.out_path)
+        self.actions_json_file_path = os.path.join(
+            self.out_path, 'actions.json')
 
     def run(self):
         self.monkey_test()
 
     def record_action(self, action):
-        self.actions.append(action.__dict__)
+        with open(self.actions_json_file_path, 'a') as f:
+            f.write(json.dumps(action.__dict__) + '\n')
 
     def monkey_test(self):
         '''
@@ -28,7 +34,9 @@ class MonkeyTest():
         '''
         monitor_system()
         logger.info("Monkey started!")
-        start_time = time.time()
+        starttime = float(os.environ.get('START_TIME'))
+        start_time = starttime or time.time()
+
         while time.time() - start_time < self.duration:
             # Random mouse movement
             x = random.randint(0, SCREEN_WIDTH - 1)
@@ -52,10 +60,4 @@ class MonkeyTest():
                     'write', time.time(), 0, 0, '', '', random.choice(KEY_NAMES))
             gui_action.execute()
             self.record_action(gui_action)
-        out_path = get_out_dir()
-        if not os.path.exists(out_path):
-            os.makedirs(out_path)
-        actions_json_file_path = os.path.join(out_path, 'actions.json')
-        with open(actions_json_file_path, 'w') as f:
-            f.write(str(self.actions))
         logger.info("Monkey finished!")
