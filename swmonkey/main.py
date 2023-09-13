@@ -33,7 +33,7 @@ def register_signal():
     signal.signal(signal.SIGQUIT, signal_handler_to_exit)
 
 
-def run(duration):
+def run_monkey(duration):
     assert duration > 0
     # set environment variable DISPLAY
     os.environ['DISPLAY'] = ':0'
@@ -41,7 +41,7 @@ def run(duration):
     monkey_test = MonkeyTest(duration=duration)
     monkey_test.run()
 
-def replay(actions_path):
+def run_replay(actions_path):
     assert actions_path is not None
      # set environment variable DISPLAY
     os.environ['DISPLAY'] = ':0'
@@ -96,10 +96,10 @@ def swmonkey():
         heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
         heartbeat_thread.start()
     if os.getenv('REPLAY') is not None:
-        replay(actions_path=os.getenv('LOG_PATH'))
+        run_replay(actions_path=os.getenv('LOG_PATH'))
     else:
         duration = int(os.getenv('DURATION'))
-        run(duration=duration)
+        run_monkey(duration=duration)
     if os.getenv('HEARTBEAT_URL') is not None:
         finish_heartbeat()
 
