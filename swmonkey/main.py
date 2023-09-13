@@ -1,10 +1,7 @@
-__version__ = '0.23'
+__version__ = '0.24'
 
 from threading import Thread
 import argparse
-from swmonkey.controller.replay import ReplayController
-
-from swmonkey.monkey_test.monkey_test import MonkeyTest
 from swmonkey.heartbeat import send_heartbeat, finish_heartbeat
 import os
 from swmonkey.log.log import logger
@@ -35,6 +32,22 @@ def register_signal():
     signal.signal(signal.SIGHUP, signal_handler_to_exit)
     signal.signal(signal.SIGQUIT, signal_handler_to_exit)
 
+
+def run(duration):
+    assert duration > 0
+    # set environment variable DISPLAY
+    os.environ['DISPLAY'] = ':0'
+    from swmonkey.monkey_test.monkey_test import MonkeyTest
+    monkey_test = MonkeyTest(duration=duration)
+    monkey_test.run()
+
+def replay(actions_path):
+    assert actions_path is not None
+     # set environment variable DISPLAY
+    os.environ['DISPLAY'] = ':0'
+    from swmonkey.controller.replay import ReplayController
+    replay_controller = ReplayController()
+    replay_controller.run(actions_json_file_path=actions_path)
 
 def swmonkey():
     '''
@@ -83,13 +96,10 @@ def swmonkey():
         heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
         heartbeat_thread.start()
     if os.getenv('REPLAY') is not None:
-        replay_controller = ReplayController()
-        replay_controller.run(actions_json_file_path=args.path)
+        replay(actions_path=os.getenv('LOG_PATH'))
     else:
         duration = int(os.getenv('DURATION'))
-        assert duration > 0
-        monkey_test = MonkeyTest(duration=duration)
-        monkey_test.run()
+        run(duration=duration)
     if os.getenv('HEARTBEAT_URL') is not None:
         finish_heartbeat()
 
