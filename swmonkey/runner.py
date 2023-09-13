@@ -2,7 +2,8 @@ import subprocess
 import os
 import argparse
 import time
-
+from .main import run_monkey
+import multiprocessing
 from swmonkey.log.log import logger
 
 
@@ -10,19 +11,18 @@ DURATION = 10  # Duration in seconds
 
 
 def run_monkey_test():
-    custom_env = {
-        'DISPLAY': ':0',
-    }
-    existing_env = os.environ.copy()
-    existing_env.update(custom_env)
     duration = int(os.getenv('DURATION'))
     # check child process status every 5 seconds
     starttime = float(os.environ.get('START_TIME'))
     while time.time() - starttime < duration:
         logger.info(f'[Main process] start swmonkey {starttime}')
-        result = subprocess.Popen(
-            ['swmonkey', '-d', f'{duration}', '--start-time', f'{starttime}'], env=existing_env)
-        result.wait()
+        # 使用multiprocessing的原因：
+        #  1. subprocess.open在一些情况下会找不到swmonkey，原因未知
+        #  2. multiprocess.Process 子进程会继承父进程的环境变量，不需要再传入
+        p = multiprocessing.Process(target=run_monkey, args=(duration,), daemon=True)
+        p.daemon = True
+        p.start()
+        p.join()
         if time.time() - starttime < duration:
             logger.info(
                 "[Main process]Monkey test stopped unexpectedly, restarting...")

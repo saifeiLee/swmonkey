@@ -34,8 +34,9 @@ class MonkeyTest():
         '''
         monitor_system()
         logger.info("Monkey started!")
-        starttime = float(os.environ.get('START_TIME'))
-        start_time = starttime or time.time()
+        starttime = os.environ.get('START_TIME')
+        assert starttime is not None
+        start_time = float(starttime or time.time())
 
         while time.time() - start_time < self.duration:
             # Random mouse movement
