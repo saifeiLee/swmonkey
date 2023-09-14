@@ -53,7 +53,7 @@ swmonkey -d 20 -r -p  ~/.swmonkey/20230911114348/actions.json # 回放 ~/.swmonk
 回放数据和日志的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
 
 ```
-DISPLAY=:0 swmonkey # 远程shell运行,需要DISPLAY环境变量
+swmonkey # 远程shell运行,需要DISPLAY环境变量
 ```
 
 ### swmonkey_runner
@@ -63,6 +63,13 @@ DISPLAY=:0 swmonkey # 远程shell运行,需要DISPLAY环境变量
 ```
 swmonkey_runner -d 7200
 ```
+
+
+--restart-x11
+开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
+
+--password
+指定sudo密码，用于 swmonkey 进程挂掉的时候，自动重启 X11 服务
 
 ## 设计文档
 
