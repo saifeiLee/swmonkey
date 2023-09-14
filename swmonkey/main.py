@@ -90,7 +90,9 @@ def swmonkey():
     starttime = args.start_time
     if starttime is not None:
         os.environ['START_TIME'] = str(starttime)
-
+    else:
+        import time
+        os.environ['START_TIME'] = str(time.time())
     if os.getenv('HEARTBEAT_URL') is not None:
         logger.info("HEARTBEAT_URL: ", os.getenv('HEARTBEAT_URL'))
         heartbeat_thread = Thread(target=send_heartbeat, daemon=True)
