@@ -56,9 +56,9 @@ def main():
     parser.add_argument('-d', '--duration', type=int,
                         default=0, help='Duration in seconds')
     parser.add_argument('--restart-x11', dest='restartx11', action='store_true',
-                        default=None, help='Restart x11 when x11 crashed.')
+                        default=None, help='开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务, 前提是终端需要配置了自动运行monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914')
     parser.add_argument('--password', dest='password', type=str,
-                        default=None, help='Password for sudo.')
+                        default=None, help='指定sudo密码, 用于 swmonkey 进程挂掉的时候，自动重启 X11 服务,重启X11服务需要sudo权限')
     args = parser.parse_args()
 
     duration = args.duration
