@@ -5,6 +5,19 @@ import time
 from .main import run_monkey
 import multiprocessing
 from swmonkey.log.log import logger
+import psutil
+
+
+def count_process_instances(process_name):
+    count = 0
+    try:
+        for process in psutil.process_iter():
+            if process.name() == process_name:
+                count += 1
+        return count
+    except Exception as e:
+        logger.error(e)
+        return False
 
 
 def run_command(sudo=False, cmd=None, passwd=None):
@@ -17,16 +30,17 @@ def run_command(sudo=False, cmd=None, passwd=None):
 
 def run_monkey_test():
     duration = int(os.getenv('DURATION'))
-    # check child process status every 5 seconds
     starttime = float(os.environ.get('START_TIME'))
     while time.time() - starttime < duration:
         logger.info(f'[Main process] start swmonkey {starttime}')
+        # 检查当前是否已经有swmonkey_runner进程在运行
+        if count_process_instances('swmonkey_runner') > 1:
+            exit(0)
         # 使用multiprocessing的原因：
         #  1. subprocess.open在一些情况下会找不到swmonkey command/file，原因未知
         #  2. multiprocess.Process 子进程会继承父进程的环境变量，不需要再传入
         p = multiprocessing.Process(
             target=run_monkey, args=(duration,), daemon=True)
-        p.daemon = True
         p.start()
         p.join()
         # 设定的时间没有执行完
@@ -36,7 +50,7 @@ def run_monkey_test():
         if time.time() - starttime < duration:
             logger.info(
                 "[Main process]Monkey test stopped unexpectedly, restarting...")
-        time.sleep(3)
+        time.sleep(5)
 
         restart_x11 = os.environ.get('RESTART_X11')
         password = os.environ.get('PASSWORD')
