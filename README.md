@@ -29,7 +29,7 @@ swmonkey -d 60 # 运行60秒
 ## 安装
 
 ```
-pip install swmonkey
+pip install --index-url https://pypi.org/project swmonkey --upgrade
 ```
 
 ## 使用
