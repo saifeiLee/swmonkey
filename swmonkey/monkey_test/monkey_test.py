@@ -16,8 +16,6 @@ class MonkeyTest():
     def __init__(self, duration):
         self.duration = duration
         self.out_path = get_out_dir()
-        if not os.path.exists(self.out_path):
-            os.makedirs(self.out_path)
         self.actions_json_file_path = os.path.join(
             self.out_path, 'actions.json')
 
