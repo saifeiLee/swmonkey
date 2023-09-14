@@ -43,6 +43,14 @@ def run_monkey_test():
             target=run_monkey, args=(duration,), daemon=True)
         p.start()
         p.join()
+        if p.exitcode == 0:
+            # 正常退出
+            logger.info("[Main process]Child process exited normally")
+            break
+        else:
+            # 异常退出
+            logger.info(
+                f"[Main process]Child process exited abnormally, exitcode: {p.exitcode}")
         # 设定的时间没有执行完
         # Note:
         # 在openlylin压测过程中发现桌面环境会崩溃重置，这时如果配置了autostart smwonkey,
