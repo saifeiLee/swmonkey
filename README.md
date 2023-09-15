@@ -64,6 +64,10 @@ swmonkey # 远程shell运行,需要DISPLAY环境变量
 swmonkey_runner -d 7200
 ```
 
+```
+swmonkey_runner -d 600000 --restart-x11 --password 123456
+```
+
 
 --restart-x11
 开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
