@@ -37,6 +37,8 @@ def monkey_monitor():
 
 class SystemMonitor:
     def __init__(self) -> None:
+        self.whitelist = ['swmonkey_runner', 'sshd', 'init',
+                     'Xorg', 'systemd', 'dbus-daemon']
         pass
 
     @classmethod
@@ -68,8 +70,8 @@ class SystemMonitor:
         '''
         释放资源
         '''
-        self._kill_high_memory_processes()
-        self._kill_high_cpu_processes()
+        self._kill_high_memory_processes(self.whitelist)
+        self._kill_high_cpu_processes(self.whitelist)
 
     @classmethod
     def _kill_high_memory_processes(self, whitelist=[], limit=3):
