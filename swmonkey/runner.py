@@ -90,8 +90,8 @@ def main():
     parser.add_argument('--interval', dest='interval', type=float,
                         default=0.5, help="GUI操作的间隔时间")
     args = parser.parse_args()
-    logger.info("Arguments:", args)
-    logger.info("OS Environment:", os.environ)
+    logger.info(f"Arguments: {args}")
+    logger.info(f"OS Environment: {os.environ}")
     interval = args.interval
     if interval is not None:
         os.environ['INTERVAL'] = str(interval)
