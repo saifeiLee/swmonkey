@@ -59,4 +59,5 @@ class MonkeyTest():
                     'write', time.time(), 0, 0, '', '', random.choice(KEY_NAMES))
             gui_action.execute()
             self.record_action(gui_action)
+            time.sleep(0.5) # 为了避免频繁的操作，每次操作后sleep 0.5s
         logger.info("Monkey finished!")
