@@ -52,21 +52,21 @@ class MonkeyTest():
                 'write', time.time(), 0, 0, '', '', random.choice(KEY_NAMES))
         gui_action.execute()
         self.record_action(gui_action)
-        time.sleep(0.5)  # 为了避免频繁的操作，每次操作后sleep 0.5s
+        interval = float(os.environ.get('INTERVAL'))
+        time.sleep(interval)  # 为了避免频繁的操作，每次操作后sleep一段时间
 
     def monkey_test(self):
         '''
         每次循环，随机生成一个动作，然后执行
         '''
         swmonitor = SystemMonitor()
-        monitor_system()
         logger.info("Monkey started!")
         starttime = os.environ.get('START_TIME')
         assert starttime is not None
         start_time = float(starttime or time.time())
-
+        keep_alive = os.environ.get('KEEP_ALIVE')
         while time.time() - start_time < self.duration:
-            if swmonitor.should_release_resource():
+            if keep_alive is not None and swmonitor.should_release_resource():
                 logger.warning(
                     "System usage is over 90%. Ready to free some resource")
                 swmonitor.free_resources()

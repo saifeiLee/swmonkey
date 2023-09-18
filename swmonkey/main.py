@@ -41,13 +41,15 @@ def run_monkey(duration):
     monkey_test = MonkeyTest(duration=duration)
     monkey_test.run()
 
+
 def run_replay(actions_path):
     assert actions_path is not None
-     # set environment variable DISPLAY
+    # set environment variable DISPLAY
     os.environ['DISPLAY'] = ':0'
     from swmonkey.controller.replay import ReplayController
     replay_controller = ReplayController()
     replay_controller.run(actions_json_file_path=actions_path)
+
 
 def swmonkey():
     '''
@@ -61,8 +63,10 @@ def swmonkey():
 
     parser.add_argument('-r', '--replay', dest='replay', action='store_true',
                         default=None, help='Replay a previous monkey test')
+
     parser.add_argument('-p', '--path', type=str,
                         default=None, help='Path to the monkey test')
+
     parser.add_argument('--heartbeat', dest='heartbeat',
                         type=str, default=None, help='Heartbeat server address')
 
@@ -71,7 +75,21 @@ def swmonkey():
 
     parser.add_argument('--start-time', dest='start_time', type=float,
                         default=None, help="Start time of the monkey test")
+
+    parser.add_argument('--keep-alive', dest='keep_alive', action='store_true',
+                        default=None, help="自动清理系统资源以保证monkey测试")
+
+    parser.add_argument('--interval', dest='interval', type=float,
+                        default=0.5, help="GUI操作的间隔时间")
     args = parser.parse_args()
+
+    interval = args.interval
+    if interval is not None:
+        os.environ['INTERVAL'] = str(interval)
+
+    keep_alive = args.keep_alive
+    if keep_alive is not None:
+        os.environ['KEEP_ALIVE'] = str(keep_alive)
 
     duration = args.duration
     if duration is not None:

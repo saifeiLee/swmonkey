@@ -68,12 +68,17 @@ swmonkey_runner -d 7200
 swmonkey_runner -d 600000 --restart-x11 --password 123456
 ```
 
-
 --restart-x11
-开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
+开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行 monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
 
---password
-指定sudo密码，用于 swmonkey 进程挂掉的时候，自动重启 X11 服务
+--password [string]
+指定 sudo 密码，用于 swmonkey 进程挂掉的时候，自动重启 X11 服务
+
+--keep-alive
+启用后, smwonkey 服务会检测系统 CPU 和内存占用,通过终止一些应用进程来保证系统正常运行
+
+--interval [int]
+指定 GUI 操作的间隔时间, 单位为秒, 默认为 0.5 秒
 
 ## 设计文档
 

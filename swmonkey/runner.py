@@ -77,11 +77,27 @@ def main():
 
     parser.add_argument('-d', '--duration', type=int,
                         default=0, help='Duration in seconds')
+
     parser.add_argument('--restart-x11', dest='restartx11', action='store_true',
                         default=None, help='开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务, 前提是终端需要配置了自动运行monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914')
+
     parser.add_argument('--password', dest='password', type=str,
                         default=None, help='指定sudo密码, 用于 swmonkey 进程挂掉的时候，自动重启 X11 服务,重启X11服务需要sudo权限')
+
+    parser.add_argument('--keep-alive', dest='keep_alive', action='store_true',
+                        default=None, help="自动清理系统资源以保证monkey测试")
+
+    parser.add_argument('--interval', dest='interval', type=float,
+                        default=0.5, help="GUI操作的间隔时间")
     args = parser.parse_args()
+
+    interval = args.interval
+    if interval is not None:
+        os.environ['INTERVAL'] = str(interval)
+
+    keep_alive = args.keep_alive
+    if keep_alive is not None:
+        os.environ['KEEP_ALIVE'] = str(keep_alive)
 
     duration = args.duration
     assert duration > 0, 'Duration must be greater than 0'
