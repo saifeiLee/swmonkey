@@ -37,7 +37,7 @@ def monkey_monitor():
 
 class SystemMonitor:
     def __init__(self) -> None:
-        self.whitelist = ['swmonkey_runner', 'sshd', 'init',
+        self.whitelist = ['swmonkey_runner', 'swmonkey', 'sshd', 'init',
                      'Xorg', 'systemd', 'dbus-daemon']
         pass
 
