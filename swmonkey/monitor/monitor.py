@@ -62,10 +62,21 @@ class SystemMonitor:
                 killed += 1
                 logger.info(
                     f'进程内存资源释放. Killed process {pid} {name} {p.memory_percent()}%')
-            except Exception as e:
-                print(e)
+            except psutil.ZombieProcess:
                 logger.warning(
-                    f'Failed to kill process {pid} {name}: {e}')
+                    f'Failed to kill process {pid} {name}: Zombie process')
+            except psutil.NoSuchProcess:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: No such process')
+            except psutil.AccessDenied:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: Access denied')
+            except psutil.TimeoutExpired:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: Timeout expired')
+            except Exception as e:
+                logger.warning(
+                    f'An unexpected error occurred when killing process {pid} {name}: {e}')
 
     def _kill_high_cpu_processes(self, whitelist, limit=3):
         if whitelist is None:
@@ -86,9 +97,21 @@ class SystemMonitor:
                 p.terminate()
                 killed += 1
                 logger.info(f'Killed process {pid} {name}')
+            except psutil.ZombieProcess:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: Zombie process')
+            except psutil.NoSuchProcess:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: No such process')
+            except psutil.AccessDenied:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: Access denied')
+            except psutil.TimeoutExpired:
+                logger.warning(
+                    f'Failed to kill process {pid} {name}: Timeout expired')
             except Exception as e:
                 logger.warning(
-                    f'Failed to kill process {pid} {name}: {e}')
+                    f'An unexpected error occurred when killing process {pid} {name}: {e}')
 
 
 if __name__ == '__main__':
