@@ -6,41 +6,11 @@ from swmonkey.error import SystemUsageError
 INTERVAL = 2
 
 
-def monitor_system():
-    '''
-    监控monkey test执行过程中的系统资源变化,输出到日志
-    '''
-    cpu_usage = psutil.cpu_percent(interval=1)
-    mem_usage = psutil.virtual_memory().percent
-    disk_usage = psutil.disk_usage('/').percent
-    net_info = psutil.net_io_counters()
-    logger.info(
-        f'CPU:  {cpu_usage}%; Memory: {mem_usage}%; Disk: {disk_usage}%; Net: {net_info.bytes_sent} bytes sent, {net_info.bytes_recv} bytes received')
-
-    # 阈值告警
-    if cpu_usage > 90:
-        logger.warning(f'CPU usage is over 90%')
-        raise SystemUsageError('CPU usage is over 90%')
-    if mem_usage > 90:
-        logger.warning(f'Memory usage is over 90%')
-        raise SystemUsageError('Memory usage is over 90%')
-    if disk_usage > 90:
-        logger.warning(f'Disk usage is over 90%')
-        raise SystemUsageError('Disk usage is over 90%')
-
-
-def monkey_monitor():
-    while True:
-        monitor_system()
-        time.sleep(INTERVAL)
-
-
 class SystemMonitor:
     def __init__(self) -> None:
         self.whitelist = ['swmonkey_runner', 'swmonkey', 'sshd', 'init',
-                     'Xorg', 'systemd', 'dbus-daemon']
+                          'Xorg', 'systemd', 'dbus-daemon']
 
-    @classmethod
     def should_release_resource(self, threshold=90) -> bool:
         '''
         监控monkey test执行过程中的系统资源变化,输出到日志
@@ -61,18 +31,16 @@ class SystemMonitor:
             logger.warning(f'Disk usage is over 90%')
         return cpu_usage > threshold or mem_usage > threshold
 
-    @classmethod
-    def free_resources(self, whitelist=[]):
+    def free_resources(self, whitelist=None):
         '''
         释放资源
         '''
         self._kill_high_memory_processes(whitelist)
         self._kill_high_cpu_processes(whitelist)
 
-    @classmethod
-    def _kill_high_memory_processes(self, whitelist=[], limit=3):
+    def _kill_high_memory_processes(self, whitelist=None, limit=3):
         # Get all running processes
-        whitelist.extend(self.whitelist)
+        whitelist.extend(self.whitelist if whitelist is None else [])
         processes = [proc for proc in psutil.process_iter(
             ['pid', 'name', 'memory_percent', 'cpu_percent']) if proc.info['name'] not in whitelist]
         processes.sort(key=lambda x: x.info['memory_percent'], reverse=True)
@@ -99,8 +67,9 @@ class SystemMonitor:
                 logger.warning(
                     f'Failed to kill process {pid} {name}: {e}')
 
-    @classmethod
-    def _kill_high_cpu_processes(self, whitelist=[], limit=3):
+    def _kill_high_cpu_processes(self, whitelist, limit=3):
+        if whitelist is None:
+            whitelist = []
         processes = [proc for proc in psutil.process_iter(
             ['pid', 'name', 'cpu_percent']) if proc.info['name'] not in whitelist]
         processes.sort(key=lambda x: x.info['cpu_percent'], reverse=True)
@@ -123,7 +92,6 @@ class SystemMonitor:
 
 
 if __name__ == '__main__':
-    # monkey_monitor()
     swmonitor = SystemMonitor()
     swmonitor._kill_high_memory_processes()
     swmonitor._kill_high_cpu_processes()

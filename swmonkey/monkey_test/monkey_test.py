@@ -6,7 +6,7 @@ import json
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.log.log import logger, get_out_dir
-from swmonkey.monitor.monitor import monitor_system, SystemMonitor
+from swmonkey.monitor.monitor import SystemMonitor
 pyautogui.FAILSAFE = False
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
