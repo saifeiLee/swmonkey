@@ -39,7 +39,6 @@ class SystemMonitor:
     def __init__(self) -> None:
         self.whitelist = ['swmonkey_runner', 'swmonkey', 'sshd', 'init',
                      'Xorg', 'systemd', 'dbus-daemon']
-        pass
 
     @classmethod
     def should_release_resource(self, threshold=90) -> bool:
@@ -63,16 +62,17 @@ class SystemMonitor:
         return cpu_usage > threshold or mem_usage > threshold
 
     @classmethod
-    def free_resources(self):
+    def free_resources(self, whitelist=[]):
         '''
         释放资源
         '''
-        self._kill_high_memory_processes(self.whitelist)
-        self._kill_high_cpu_processes(self.whitelist)
+        self._kill_high_memory_processes(whitelist)
+        self._kill_high_cpu_processes(whitelist)
 
     @classmethod
     def _kill_high_memory_processes(self, whitelist=[], limit=3):
         # Get all running processes
+        whitelist.extend(self.whitelist)
         processes = [proc for proc in psutil.process_iter(
             ['pid', 'name', 'memory_percent', 'cpu_percent']) if proc.info['name'] not in whitelist]
         processes.sort(key=lambda x: x.info['memory_percent'], reverse=True)

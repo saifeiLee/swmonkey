@@ -1,4 +1,4 @@
-__version__ = '0.30'
+__version__ = '0.32'
 
 from threading import Thread
 import argparse
