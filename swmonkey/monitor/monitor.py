@@ -56,13 +56,10 @@ class SystemMonitor:
         # 阈值告警
         if cpu_usage > threshold:
             logger.warning(f'CPU usage is over 90%')
-            raise SystemUsageError('CPU usage is over 90%')
         if mem_usage > threshold:
             logger.warning(f'Memory usage is over 90%')
-            raise SystemUsageError('Memory usage is over 90%')
         if disk_usage > threshold:
             logger.warning(f'Disk usage is over 90%')
-            raise SystemUsageError('Disk usage is over 90%')
         return cpu_usage > threshold or mem_usage > threshold
 
     @classmethod
