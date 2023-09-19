@@ -38,6 +38,8 @@ class SystemMonitor:
 
     def _kill_high_memory_processes(self, whitelist=None, limit=3):
         # Get all running processes
+        if whitelist is None:
+            whitelist = []
         whitelist.extend(self.whitelist if whitelist is None else [])
         processes = [proc for proc in psutil.process_iter(
             ['pid', 'name', 'memory_percent', 'cpu_percent']) if proc.info['name'] not in whitelist]
