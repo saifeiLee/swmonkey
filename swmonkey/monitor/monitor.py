@@ -1,7 +1,5 @@
 import psutil
 from swmonkey.log.log import logger
-import time
-from swmonkey.error import SystemUsageError
 
 INTERVAL = 2
 
@@ -116,5 +114,4 @@ class SystemMonitor:
 
 if __name__ == '__main__':
     swmonitor = SystemMonitor()
-    swmonitor._kill_high_memory_processes()
-    swmonitor._kill_high_cpu_processes()
+    swmonitor.free_resources()
