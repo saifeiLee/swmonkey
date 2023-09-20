@@ -1,8 +1,12 @@
 echo "准备开始构建和发布..."
 echo "清理dist目录..."
-rm -r dist/*
+if [ -d "dist" ]; then
+  rm -rf dist/*
+fi
+
 echo "构建..."
 python setup.py sdist
+# 需要配置仓库源的TOKEN
 API_TOKEN=$(cat ~/.pypirc | grep password | cut -d' ' -f3)
 echo $API_TOKEN
 echo "上传..."
