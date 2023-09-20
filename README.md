@@ -87,9 +87,30 @@ https://kb.cvte.com/pages/viewpage.action?pageId=372571592
 ## 构建和发布
 
 ```
+# 封装到脚本,一键执行
 ./auto-upload.sh
 ```
 
+### 注意
+
+1. 需要先安装 twine
+
+```
+pip install twine
+```
+
+2. 需要配置 pypi 账号,配置文件路径为 ~/.pypirc
+
+参考
+```
+[distutils]
+index-servers =
+    pypi
+
+[pypi]
+usernam = __token__
+password = YOUR_TOKEN
+```
 ## 本地测试
 
 ```
