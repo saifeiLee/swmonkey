@@ -89,9 +89,18 @@ def main():
 
     parser.add_argument('--interval', dest='interval', type=float,
                         default=0.5, help="GUI操作的间隔时间")
+
+    parser.add_argument('--app-path', dest='app_path', type=str,
+                        default=None, help="Monkey测试限定的应用程序路径")
+
     args = parser.parse_args()
     logger.info(f"Arguments: {args}")
     logger.info(f"OS Environment: {os.environ}")
+
+    app_path = args.app_path
+    if app_path is not None:
+        os.environ['APP_PATH'] = app_path
+
     interval = args.interval
     if interval is not None:
         os.environ['INTERVAL'] = str(interval)
