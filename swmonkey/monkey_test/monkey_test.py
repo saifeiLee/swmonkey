@@ -36,29 +36,30 @@ class ViableAreaManager():
             all_windows_before_launch = pwc.getAllWindows()
             # 启动app
             launch_app(app_path)
-            time.sleep(3)  # 等待app启动完成
-            all_windows_after_launch = pwc.getAllWindows()
+            TIME_TO_WAIT = 100
             new_app_window = None
-            for window in all_windows_after_launch:
-                if window not in all_windows_before_launch:
-                    new_app_window = window
-                    break
-            # 如果指定了APP_PATH，则默认有效区域为APP窗口区域
-            # exit(0)
-            if new_app_window is not None:
-                logger.info(
-                    f"new_app_window: {new_app_window} {new_app_window._win.id} {new_app_window.left} {new_app_window.top} {new_app_window.width} {new_app_window.height}")
-                self.add(new_app_window._win.id, new_app_window.left, new_app_window.top,
-                         new_app_window.width, new_app_window.height)
-            else:
-                logger.error("获取应用窗口失败")
-                raise AppWindowNotFoundError
+            while new_app_window is None and TIME_TO_WAIT > 0:
+                time.sleep(1)  # 等待app启动完成
+                print("等待app启动完成")
+                all_windows_after_launch = pwc.getAllWindows()
+                for window in all_windows_after_launch:
+                    if window not in all_windows_before_launch:
+                        new_app_window = window
+                        break
+                TIME_TO_WAIT -= 1
+                # 如果指定了APP_PATH，则默认有效区域为APP窗口区域
+            print("new_app_window:", new_app_window)
+            logger.info(
+                f"new_app_window: {new_app_window} {new_app_window._win.id} {new_app_window.left} {new_app_window.top} {new_app_window.width} {new_app_window.height}")
+            self.add(new_app_window)
 
     def get(self):
         pass
 
-    def add(self, id, x, y, width, height):
-        self.viable_areas[id] = (x, y, width, height)
+    def add(self, window):
+        assert window is not None
+        self.viable_areas[window._win.id] = (
+            window.left, window.top, window.width, window.height)
 
     def update(self, id, x, y, width, height):
         if id not in self.viable_areas:
