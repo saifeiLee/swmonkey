@@ -34,6 +34,11 @@ pip install --index-url https://pypi.org/project swmonkey --upgrade
 
 ## 使用
 
+设置环境变量
+```
+export XDG_CURRENT_DESKTOP=UKUI
+``````
+
 ### swmonkey
 
 ```
@@ -81,7 +86,7 @@ swmonkey_runner -d 600000 --restart-x11 --password 123456
 指定 GUI 操作的间隔时间, 单位为秒, 默认为 0.5 秒
 
 --app-path [App Launch Path]
-启动应用，并把 monkey 测试限定在应用窗口范围内
+启动应用，并把 monkey 测试限定在应用窗口范围内。例如`swmonkey_runner  -d 600000 --app-path /usr/bin/firefox  --keep-alive`
 
 ## 设计文档
 
