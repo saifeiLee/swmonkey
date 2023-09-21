@@ -80,6 +80,9 @@ swmonkey_runner -d 600000 --restart-x11 --password 123456
 --interval [int]
 指定 GUI 操作的间隔时间, 单位为秒, 默认为 0.5 秒
 
+--app-path [App Launch Path]
+启动应用，并把 monkey 测试限定在应用窗口范围内
+
 ## 设计文档
 
 https://kb.cvte.com/pages/viewpage.action?pageId=372571592
@@ -102,6 +105,7 @@ pip install twine
 2. 需要配置 pypi 账号,配置文件路径为 ~/.pypirc
 
 参考
+
 ```
 [distutils]
 index-servers =
@@ -111,6 +115,7 @@ index-servers =
 usernam = __token__
 password = YOUR_TOKEN
 ```
+
 ## 本地测试
 
 ```
