@@ -1,7 +1,10 @@
 from setuptools import setup, find_packages
-import io
+import os
 
-with open('swmonkey/main.py', encoding='utf-8') as f:
+scriptFolder = os.path.dirname(os.path.realpath(__file__))
+os.chdir(scriptFolder)
+
+with open('src/swmonkey/main.py', encoding='utf-8') as f:
     for line in f:
         if line.startswith('__version__'):
             version = line.split('=')[1].strip().strip("'")
@@ -11,9 +14,10 @@ print('version: ', version)
 setup(
     name='swmonkey',
     version=version,
-    packages=find_packages(),
+    packages=find_packages(where='src'),
     author='Li Saifei',
     author_email='waltermitty121906@gmail.com',
+    package_dir={'': 'src'},
     description='A tool for monkey test on Linux GUI',
     entry_points={
         'console_scripts': [
