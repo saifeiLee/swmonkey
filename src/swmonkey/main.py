@@ -1,4 +1,4 @@
-__version__ = '0.43'
+__version__ = '0.46'
 
 from threading import Thread
 import argparse
@@ -134,5 +134,11 @@ def swmonkey():
         finish_heartbeat()
 
 
+def version():
+    return __version__
+
+
 if __name__ == '__main__':
-    swmonkey()
+    # swmonkey()
+    v =version()
+    print(f"version {v}")

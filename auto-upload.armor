@@ -1,0 +1,30 @@
+#!/bin/bash
+
+clean_dist() {
+  echo "清理dist目录..."
+  if [ -d "dist" ]; then
+    rm -rf dist/*
+  fi
+}
+
+upload_package() {
+  # 需要配置仓库源的TOKEN,参考readme
+  API_TOKEN=$(cat ~/.pypirc | grep password | cut -d' ' -f3)
+  echo $API_TOKEN
+  echo "上传..."
+  # python3.8可用，3.11对应的版本 参数变了
+  python -m twine upload -u __token__ -p $API_TOKEN dist/*
+}
+
+echo "准备开始构建和发布..."
+clean_dist
+
+echo "构建..."
+clean_dist
+python setup.py sdist
+upload_package
+if [ $? -ne 0 ]; then
+  echo "上传失败,检查版本号是否已更新"
+  exit 1
+fi
+echo "完成混淆版本构建上传√"

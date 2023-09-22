@@ -161,3 +161,4 @@ cython_debug/
 
 out/
 .pypirc
+dist-armor
