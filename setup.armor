@@ -1,10 +1,15 @@
 from setuptools import setup, find_packages
 import os
+import io
 
 scriptFolder = os.path.dirname(os.path.realpath(__file__))
 os.chdir(scriptFolder)
 
 version = '0.45'
+
+with io.open("README.md", "r", encoding="utf-8") as f:
+    long_description = f.read()
+
 
 print('version: ', version)
 setup(
@@ -17,6 +22,8 @@ setup(
     author='Li Saifei',
     author_email='waltermitty121906@gmail.com',
     description='A tool for monkey test on Linux GUI',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     entry_points={
         'console_scripts': [
             'swmonkey = swmonkey.main:swmonkey',

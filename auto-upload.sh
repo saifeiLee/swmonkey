@@ -16,7 +16,7 @@ upload_package() {
   echo $API_TOKEN
   echo "上传..."
   # python3.8可用，3.11对应的版本 参数变了
-  python -m twine upload -u __token__ -p $API_TOKEN dist/*
+  python -m twine upload --verbose -u __token__ -p $API_TOKEN dist/* --verbose
 }
 
 echo "准备开始构建和发布..."
@@ -48,10 +48,14 @@ if [[ "$@" == *"--armor"* ]]; then
   echo "代码混淆构建..."
   pyarmor gen -O $DIST_ARMOR -r -i src/swmonkey
   cp $SETUP_FILE_FOR_ARMOR $DIST_ARMOR/setup.py
+  cp README.md $DIST_ARMOR/README.md
   update_version
   cp $UPLOAD_SCRIPT_FOR_ARMOR $DIST_ARMOR/auto-upload.sh
   chmod +x $DIST_ARMOR/auto-upload.sh
-  ./$DIST_ARMOR/auto-upload.sh
+  # execute upload script under $DIST_ARMOR
+  cd $DIST_ARMOR
+  ./auto-upload.sh
+  cd ..
 else
   echo "非混淆构建..."
   python setup.py sdist
