@@ -35,58 +35,69 @@ pip install --index-url https://pypi.org/project swmonkey --upgrade
 ## 使用
 
 设置环境变量
+
 ```
 export XDG_CURRENT_DESKTOP=UKUI
-``````
+```
+
+## 参数
 
 ### swmonkey
 
-```
-swmonkey -d 20 # 运行20秒
-```
+**-d**
 
--d / --duration 指定运行时间
+指定运行时间
+
+**-r**
+
+以回放模式运行，需要搭配`-p` 参数指定回访数据的路径
+
+**-p**
+
+指定回放数据的路径。回放数据和日志的路径默认在 `~/.swmonkey/`下。例如：
 
 ```
 swmonkey -d 20 -r -p  ~/.swmonkey/20230911114348/actions.json # 回放 ~/.swmonkey/20230911114348/actions.json的数据
 ```
 
--r 以回放模式运行，需要搭配`-p` 参数指定回访数据的路径
-
--p 指定回放数据的路径
-
-回放数据和日志的路径默认在 `~/.swmonkey/`下, 可以通过 `-p`参数指定
-
-```
-swmonkey # 远程shell运行,需要DISPLAY环境变量
-```
-
 ### swmonkey_runner
 
-`swmonkey_runner`是一个辅助命令，以进程分离的形式运行`swmonkey`, 目的是在 swmonkey 进程挂掉的时候，可以自动重启
+`swmonkey_runner`以多进程的方式运行`swmonkey`, 目的是在 swmonkey 进程挂掉的时候，可以自动重启
 
-```
-swmonkey_runner -d 7200
-```
+**--keep-alive**
 
-```
-swmonkey_runner -d 600000 --restart-x11 --password 123456
-```
-
---restart-x11
-开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行 monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
-
---password [string]
-指定 sudo 密码，用于 swmonkey 进程挂掉的时候，自动重启 X11 服务
-
---keep-alive
 启用后, smwonkey 服务会检测系统 CPU 和内存占用,通过终止一些应用进程来保证系统正常运行
 
---interval [int]
+**--interval [int]**
+
 指定 GUI 操作的间隔时间, 单位为秒, 默认为 0.5 秒
 
---app-path [App Launch Path]
+**--app-path [App Launch Path]**
+
 启动应用，并把 monkey 测试限定在应用窗口范围内。例如`swmonkey_runner  -d 600000 --app-path /usr/bin/firefox  --keep-alive`
+
+**--restart-x11**
+
+开启这个参数，会在 swmonkey 挂掉的时候，自动重启 X11 服务，前提是终端需要配置了自动运行 monkey, 如何配置参见:https://kb.cvte.com/pages/viewpage.action?pageId=377734914
+
+**--password [string]**
+
+指定 sudo 密码，用于 swmonkey 进程挂掉的时候，自动重启 X11 服务
+
+### 特别说明
+当前存在两种方法用于smwonkey保活：
+
+
+**方法一**: 开机自启动的方式,
+
+ [配置开机自启](https://kb.cvte.com/pages/viewpage.action?pageId=377734914)后，使用命令启动monkey测试:
+```
+systemctl restart lightdm
+```
+
+
+**方法二**: 使用`--keep-alive`参数 (推荐)
+
 
 ## 设计文档
 
@@ -95,8 +106,10 @@ https://kb.cvte.com/pages/viewpage.action?pageId=372571592
 ## 构建和发布
 
 ```
-# 封装到脚本,一键执行
 ./auto-upload.sh
+
+# 构建/发布混淆版本的包
+./auto-upload.sh --armor
 ```
 
 ### 注意
