@@ -97,7 +97,10 @@ systemctl restart lightdm
 
 
 **方法二**: 使用`--keep-alive`参数 (推荐)
-
+```
+export XDG_CURRENT_DESKTOP=UKUI
+swmonkey_runner -d 600000 --keep-alive
+```
 
 ## 设计文档
 
