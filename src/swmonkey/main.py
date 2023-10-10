@@ -35,6 +35,7 @@ def register_signal():
 
 def run_monkey(duration):
     assert duration > 0
+    register_signal()
     # set environment variable DISPLAY
     os.environ['DISPLAY'] = ':0'
     from swmonkey.monkey_test.monkey_test import MonkeyTest
