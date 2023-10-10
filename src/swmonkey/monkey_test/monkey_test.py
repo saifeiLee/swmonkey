@@ -3,6 +3,7 @@ import random
 import time
 import os
 import json
+os.environ['XDG_CURRENT_DESKTOP'] = 'UKUI'
 import pywinctl as pwc
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
@@ -53,8 +54,16 @@ class ViableAreaManager():
                 f"new_app_window: {new_app_window} {new_app_window._win.id} {new_app_window.left} {new_app_window.top} {new_app_window.width} {new_app_window.height}")
             self.add(new_app_window)
 
-    def get(self):
-        pass
+    def get_rect(self):
+        '''
+        Return the rect of the viable area
+        '''
+        if len(self.viable_areas) == 0:
+            return None
+        else:
+            x, y, width, height = list(self.viable_areas.values())[0]
+            return (x, y, width, height)
+
 
     def add(self, window):
         assert window is not None
@@ -128,6 +137,9 @@ class MonkeyTest():
         随机生成一个动作，然后执行
         '''
         # Random mouse movement
+        # left,top,width, height = self.viable_area_manager.get_rect()
+        # x = random.randint(left, left + width - 1)
+        # y = random.randint(top, top + height - 1)
         x = random.randint(0, SCREEN_WIDTH - 1)
         y = random.randint(0, SCREEN_HEIGHT - 1)
         if os.environ.get('APP_PATH') is not None:
@@ -135,7 +147,7 @@ class MonkeyTest():
             if not self.viable_area_manager.is_in(x, y):
                 return
 
-        if random.random() < 0.1:
+        if random.random() < 0.5:
             gui_action = GUIAction(
                 'click', time.time(), x, y, '', 'left', '')
         else:
