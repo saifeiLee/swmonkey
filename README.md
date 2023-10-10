@@ -112,6 +112,7 @@ https://kb.cvte.com/pages/viewpage.action?pageId=372571592
 ./auto-upload.sh
 
 # 构建/发布混淆版本的包
+# 注意: 使用混淆版本的包，终端的python版本需要与构建环境一致(3.10.7)
 ./auto-upload.sh --armor
 ```
 
