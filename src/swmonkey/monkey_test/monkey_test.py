@@ -4,7 +4,12 @@ import time
 import os
 import json
 os.environ['XDG_CURRENT_DESKTOP'] = 'UKUI'
-import pywinctl as pwc
+import_pwc_success = False
+try:
+    import pywinctl as pwc
+    import_pwc_success = True
+except Exception as e:
+    print("Import pywinctl error:", e)
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.log.log import logger, get_out_dir
@@ -16,6 +21,16 @@ pyautogui.FAILSAFE = False
 
 SCREEN_WIDTH, SCREEN_HEIGHT = pyautogui.size()
 
+def pwc_loaded(func):
+    # if pwc_loaded is False, we should not execute the function
+    def wrapper(*args, **kwargs):
+        if import_pwc_success:
+            return func(*args, **kwargs)
+        else:
+            return None
+    return wrapper
+
+    
 
 def launch_app(app_exe_path):
     '''
@@ -33,7 +48,7 @@ class ViableAreaManager():
         # Dict of viable areas: id -> (x, y, width, height)
         self.viable_areas = {}
         app_path = os.environ.get('APP_PATH')
-        if app_path is not None:
+        if app_path is not None and import_pwc_success:
             all_windows_before_launch = pwc.getAllWindows()
             # 启动app
             launch_app(app_path)
@@ -76,12 +91,14 @@ class ViableAreaManager():
             return
         self.viable_areas[id] = (x, y, width, height)
 
+    @pwc_loaded
     def restore_area(self):
         for id, area in self.viable_areas.items():
             x, y, width, height = area
             target_window = pwc.getWindow(id)
             pwc.moveWindow(id, x, y, width, height)
 
+    @pwc_loaded
     def is_in(self, x, y):
         # check if the are has changed
         '''
@@ -95,7 +112,7 @@ class ViableAreaManager():
                 if window._win.id in self.viable_areas:
                     return True
             return False
-
+    @pwc_loaded
     def is_area_size_changed(self):
         active_window = pwc.getActiveWindow()
         if active_window is None:
@@ -105,7 +122,8 @@ class ViableAreaManager():
         x, y, width, height = self.viable_areas[active_window._win.id]
         if active_window.width != width or active_window.height != height or active_window.left != x or active_window.top != y:
             return True
-
+            
+    @pwc_loaded
     def restore_area_size(self):
         active_window = pwc.getActiveWindow()
         if active_window is None:
