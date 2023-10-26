@@ -35,6 +35,7 @@ def run_monkey_test():
         logger.info(f'[Main process] start swmonkey {starttime}')
         # 检查当前是否已经有swmonkey_runner进程在运行
         if count_process_instances('swmonkey_runner') > 1:
+            logger.info("已经有Monkey进程正在运行, 退出程序")
             exit(0)
         # 使用multiprocessing的原因：
         #  1. subprocess.open在一些情况下会找不到swmonkey command/file，原因未知
