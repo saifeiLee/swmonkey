@@ -1,5 +1,5 @@
 import threading
-from swmonkey.util.util import get_out_dir
+from swmonkey.util.dir import get_out_dir
 
 
 def collect_system_logs():

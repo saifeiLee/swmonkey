@@ -5,6 +5,7 @@ import time
 from .main import run_monkey
 import multiprocessing
 from swmonkey.log.log import logger
+from swmonkey.util.util import restart_x11_instance
 import psutil
 
 
@@ -37,6 +38,8 @@ def run_monkey_test():
         if count_process_instances('swmonkey_runner') > 1:
             logger.info("已经有Monkey进程正在运行, 退出程序")
             exit(0)
+
+
         # 使用multiprocessing的原因：
         #  1. subprocess.open在一些情况下会找不到swmonkey command/file，原因未知
         #  2. multiprocess.Process 子进程会继承父进程的环境变量，不需要再传入
@@ -64,11 +67,7 @@ def run_monkey_test():
         restart_x11 = os.environ.get('RESTART_X11')
         password = os.environ.get('PASSWORD')
         if restart_x11 is not None and password is not None:
-            logger.info("[Main process]Restarting x11...")
-            # WARNING
-            # 执行这个命令会导致桌面环境重启，所有的应用都会关闭,包括swmonkey_runner
-            run_command(sudo=True, cmd='systemctl restart lightdm',
-                        passwd=password)
+            restart_x11_instance()
     logger.info("[Main process]Monkey test finished!")
 
 

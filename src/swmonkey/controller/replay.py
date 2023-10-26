@@ -1,4 +1,4 @@
-from swmonkey.util.util import get_out_dir
+from swmonkey.util.dir import get_out_dir
 import os
 import time
 from swmonkey.data_structure.gui_action import GUIAction

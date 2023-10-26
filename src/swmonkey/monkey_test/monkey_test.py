@@ -5,7 +5,8 @@ import os
 import json
 os.environ['XDG_CURRENT_DESKTOP'] = 'UKUI'
 import_pwc_success = False
-from swmonkey.log.log import logger, get_out_dir
+from swmonkey.log import logger
+from swmonkey.util.dir import get_out_dir
 try:
     import pywinctl as pwc
     import_pwc_success = True
@@ -14,7 +15,6 @@ except Exception as e:
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
 from swmonkey.monitor.monitor import SystemMonitor
-from swmonkey.error import AppWindowNotFoundError
 import subprocess
 
 pyautogui.FAILSAFE = False
@@ -197,6 +197,7 @@ class MonkeyTest():
         start_time = float(starttime or time.time())
         keep_alive = os.environ.get('KEEP_ALIVE')
         while time.time() - start_time < self.duration:
+            # check_screen_locked() # 如果配置了免密登录,不需要这一步
             if keep_alive is not None and swmonitor.should_release_resource():
                 logger.warning(
                     "System usage is over 90%. Ready to free some resource")
