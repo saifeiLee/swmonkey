@@ -5,14 +5,14 @@ import os
 import json
 os.environ['XDG_CURRENT_DESKTOP'] = 'UKUI'
 import_pwc_success = False
+from swmonkey.log.log import logger, get_out_dir
 try:
     import pywinctl as pwc
     import_pwc_success = True
 except Exception as e:
-    print("Import pywinctl error:", e)
+    logger.exception("import pywinctl failed")
 from swmonkey.util.util import KEY_NAMES
 from swmonkey.data_structure.gui_action import GUIAction
-from swmonkey.log.log import logger, get_out_dir
 from swmonkey.monitor.monitor import SystemMonitor
 from swmonkey.error import AppWindowNotFoundError
 import subprocess
@@ -122,7 +122,7 @@ class ViableAreaManager():
         x, y, width, height = self.viable_areas[active_window._win.id]
         if active_window.width != width or active_window.height != height or active_window.left != x or active_window.top != y:
             return True
-            
+
     @pwc_loaded
     def restore_area_size(self):
         active_window = pwc.getActiveWindow()
