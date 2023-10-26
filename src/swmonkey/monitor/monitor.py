@@ -1,5 +1,5 @@
 import psutil
-from swmonkey.log.log import logger
+from swmonkey.log import logger
 
 INTERVAL = 2
 

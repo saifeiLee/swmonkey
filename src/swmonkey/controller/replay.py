@@ -1,9 +1,8 @@
 from swmonkey.util.dir import get_out_dir
 import os
-import time
 from swmonkey.data_structure.gui_action import GUIAction
 import json
-from swmonkey.log.log import logger
+from swmonkey.log import logger
 
 
 class ReplayController:

@@ -4,7 +4,7 @@ from threading import Thread
 import argparse
 from swmonkey.heartbeat import send_heartbeat, finish_heartbeat
 import os
-from swmonkey.log.log import logger
+from swmonkey.log import logger
 import signal
 
 DURATION = 10  # Duration in seconds

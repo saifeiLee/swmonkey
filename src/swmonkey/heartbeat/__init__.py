@@ -1,7 +1,7 @@
 import requests
 import time
 from threading import Thread
-from swmonkey.log.log import logger
+from swmonkey.log import logger
 import os
 INTERVAL = 5
 

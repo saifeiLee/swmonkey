@@ -4,7 +4,7 @@ import argparse
 import time
 from .main import run_monkey
 import multiprocessing
-from swmonkey.log.log import logger
+from swmonkey.log import logger
 from swmonkey.util.util import restart_x11_instance
 import psutil
 
